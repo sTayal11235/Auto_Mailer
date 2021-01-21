@@ -20,20 +20,17 @@ myXlFile = pd.read_excel(excel_location)
 
 #storing the names, mails and fields as lists in respective variables
 Names = myXlFile['Name']
-Mails = myXlFile['Mail']
-Field = myXlFile['Field']
+Mails = myXlFile['Email']
 
 #loop to send mail by iterating through mail list
 for i in range(len(Mails)):
     name = Names[i]
     mail = Mails[i]
-    field = Field[i]
 
     # Opening and reading the text file and replacing the {NAME} and {FIELD} by those in the list
     myTxTFile = open(mail_location)
     message = myTxTFile.read()
     message = message.replace("{NAME}", name)
-    message = message.replace("{FIELD}", field)
 
     server.sendmail(Sender_mail, [mail], message)
     myTxTFile.close()
