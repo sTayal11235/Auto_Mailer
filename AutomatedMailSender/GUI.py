@@ -62,21 +62,25 @@ def GUI():
     xlsFileBtn = tk.Button(cnvs, text = "Browse", command = lambda : BrowseXlsFile(cnvs, xlsPathBox))
     xlsFileBtn.place(x = 200, y = 320)
 
-    cnvs.create_text(280, 445, font=dataFont, text="Edit/Enter Desired Mail")
-    mail = tk.Text(cnvs)
-    cnvs.create_window(550, 540, height = 170, width = 700, window=mail)
+    cnvs.create_text(233, 445, font = dataFont, text = "Subject : ")
+    Subject = tk.Entry(cnvs, font = entryFont, fg = '#000080')
+    cnvs.create_window(580, 445, height = 25, width=620, window= Subject)
 
-    cnvs.create_text(332, 380, font=dataFont, text="Enter or Browse Mail Text File Location")
+    cnvs.create_text(280, 485, font=dataFont, text="Edit/Enter Desired Mail")
+    mail = tk.Text(cnvs)
+    cnvs.create_window(550, 570, height = 140, width = 700, window=mail)
+
+    cnvs.create_text(332, 370, font=dataFont, text="Enter or Browse Mail Text File Location")
     txtPathBox = tk.Entry(cnvs, font = entryFont, fg='#000080')
-    cnvs.create_window(580, 412, height=25, width=620, window=txtPathBox)
+    cnvs.create_window(580, 402, height=25, width=620, window=txtPathBox)
     textFileBtn = tk.Button(cnvs, text = "Browse", command = lambda : BrowseTxtFile(mail, cnvs, txtPathBox))
-    textFileBtn.place(x = 200, y = 400)
+    textFileBtn.place(x = 200, y = 390)
 
     saveChanges = tk.Button(cnvs, text = "Save Changes", command = lambda : SaveChanges(mail))
-    saveChanges.place(x = 815, y = 600)
+    saveChanges.place(x = 815, y = 612)
 
-    sendMail = tk.Button(cnvs, text = "Send Mails", bg = "#7bb574", command = lambda : sendingMail(userId.get(), pwd.get(), xlsFilePath, txtFilePath))
-    sendMail.place(x = 540, y = 635)
+    sendMail = tk.Button(cnvs, text = "Send Mails", bg = "#7bb574", command = lambda : sendingMail(userId.get(), pwd.get(), xlsFilePath, Subject.get(), mail.get(0.0, 10000000000.0)))
+    sendMail.place(x = 540, y = 640)
 
     cnvs.pack()
     top.mainloop()

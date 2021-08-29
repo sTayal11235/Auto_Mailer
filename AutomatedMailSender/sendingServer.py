@@ -1,12 +1,12 @@
 import pandas as pd
-import smtplib as srvr
+import smtplib, ssl
+from email.mime.text import MIMEText
 
-def sendingMail(Sender_mail, Sender_password, excel_location, mail_location):
+def sendingMail(Sender_mail, Sender_password, excel_location, subject, eMail):
 
     # setting up server and logging in to the sender's mail through the server
     # server 465 is secure server hence it is used
-    server = srvr.SMTP_SSL('smtp.gmail.com', 465)
-    server.ehlo()
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login(Sender_mail, Sender_password)
 
     # Reading the Excel file through panda library
@@ -15,16 +15,17 @@ def sendingMail(Sender_mail, Sender_password, excel_location, mail_location):
     # storing the names, mails and fields as lists in respective variables
     Mails = myXlFile['Email']
 
+    message = MIMEText(eMail)
+    message['Subject'] = subject
+    message['From'] = Sender_mail
     # loop to send mail by iterating through mail list
     for i in range(len(Mails)):
         mail = Mails[i]
+        message['To'] = mail
 
         # Opening and reading the text file
-        myTxTFile = open(mail_location)
-        message = myTxTFile.read()
 
-        server.sendmail(Sender_mail, [mail], message)
-        myTxTFile.close()
+        server.sendmail(Sender_mail, [mail], message.as_string())
 
     # closing the server
-    server.close()
+    server.quit()
